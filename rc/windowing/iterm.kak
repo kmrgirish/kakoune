@@ -110,17 +110,23 @@ If no client is passed then the current one is used' \
             printf %s\\n "evaluate-commands -client '$1' focus"
         else
             session="${kak_client_env_ITERM_SESSION_ID#*:}"
-            osascript                                                      \
-            -e "tell application \"iTerm\" to repeat with aWin in windows" \
-            -e "    tell aWin to repeat with aTab in tabs"                 \
-            -e "        tell aTab to repeat with aSession in sessions"     \
-            -e "            tell aSession"                                 \
-            -e "                if (unique id = \"${session}\") then"      \
-            -e "                    select"                                \
-            -e "                end if"                                    \
-            -e "            end tell"                                      \
-            -e "        end repeat"                                        \
-            -e "    end repeat"                                            \
+            osascript                                                         \
+            -e "tell application \"iTerm\" to repeat with aWin in windows"    \
+            -e "    tell aWin to repeat with aTab in tabs"                    \
+            -e "        tell aTab to repeat with aSession in sessions"        \
+            -e "            tell aSession"                                    \
+            -e "                if (unique id = \"${session}\") then"         \
+            -e "                    tell aWin"                                \
+            -e "                        select"                               \
+            -e "                    end tell"                                 \
+            -e "                    tell aTab"                                \
+            -e "                        select"                               \
+            -e "                    end tell"                                 \
+            -e "                    select"                                   \
+            -e "                end if"                                       \
+            -e "            end tell"                                         \
+            -e "        end repeat"                                           \
+            -e "    end repeat"                                               \
             -e "end repeat"
         fi
     }
